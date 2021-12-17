@@ -1,26 +1,17 @@
-import { Box, Typography } from "@mui/material"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { Box } from "@mui/material"
 import React from "react"
-import HeadPage from "../components/Head"
-import nextI18NextConfig from "../next-i18next.config.js"
+import Dashboard from "../components/dashboard/Dashboard"
 import useStyles from "../styles"
 
-export const getStaticProps = async ({ locale }: any) => {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ["common"], nextI18NextConfig)),
-    },
-  }
-}
-
-function Home() {
+function Index() {
   const classes = useStyles()
   return (
     <Box>
-      <HeadPage />
-      <Typography className={classes.title}>home page</Typography>
+      <Dashboard />
     </Box>
   )
 }
 
-export default Home
+export default function Home() {
+  return <Index />
+}

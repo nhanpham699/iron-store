@@ -1,27 +1,27 @@
 export enum actionTypes {
   LOAD_DATA = "LOAD_DATA",
+  LOGIN = "LOGIN",
+  LOGIN_SUCCESS = "LOGIN_SUCCESS",
   LOAD_DATA_SUCCESS = "LOAD_DATA_SUCCESS",
   LOAD_DATA_FAILED = "LOAD_DATA_FAILED",
   LOADING = "LOADING",
   START_CLOCK = "START_CLOCK",
   TICK_CLOCK = "TICK_CLOCK",
-  INQUIRY_RESULT_CODE = "INQUIRY_RESULT_CODE",
   ERROR_STATE = "ERROR_STATE",
   RESET = "RESET",
-  REDIRECT_STATE = "REDIRECT_STATE",
 }
 
 export type Action =
   | Loading
   | LoadData
+  | Login
+  | LoginSuccess
   | LoadDataSuccess
   | LoadDataFailed
   | StartClock
   | TickClock
-  | InquiryResultCode
   | ErrorState
   | Reset
-  | Redirect
 
 export interface ErrorState {
   type: actionTypes.ERROR_STATE
@@ -57,15 +57,19 @@ export interface Loading {
   load: boolean
 }
 
-export interface InquiryResultCode {
-  type: actionTypes.INQUIRY_RESULT_CODE
-  code: string
-}
-
 export interface Reset {
   type: actionTypes.RESET
 }
 
-export interface Redirect {
-  type: actionTypes.REDIRECT_STATE
+export interface Login {
+  type: actionTypes.LOGIN
+  req: {
+    username: string
+    password: string
+  }
+}
+
+export interface LoginSuccess {
+  type: actionTypes.LOGIN_SUCCESS
+  username: string
 }

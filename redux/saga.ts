@@ -1,47 +1,39 @@
 import axios from "axios"
 import { AnyAction } from "redux"
 import { all, call, put, takeEvery } from "redux-saga/effects"
-import { loadDataFailed, loadDataSuccess, loadingData } from "./actions"
+import { loading, loginSuccess } from "./actions"
 import { actionTypes } from "./types"
 
-const dataInstance = axios.create({ baseURL: "/hocphi/api" })
+const loginInstance = axios.create({ baseURL: "/api" })
 
-const inquiryPost = (req: any) =>
-  dataInstance.request({
+const loginPost = (req: string) =>
+  loginInstance.request({
     method: "POST",
-    url: `/inquiry`,
+    url: `/login`,
     data: req,
   })
 
-function* dataRequest(action: AnyAction): any {
+function* loginRequest(action: AnyAction): any {
   try {
-    yield put(loadingData(true))
-    const res = yield call(inquiryPost, action.req)
+    yield put(loading(true))
+    const res = yield call(loginPost, action.req)
     if (!res.data.errCode) {
-      yield put(loadDataSuccess(res.data))
-      yield put(loadingData(false))
-      // history.push("/detail")
+      yield put(loginSuccess(res.data.username))
+      // yield put(loading(false))
+      window.location.href = "/"
     } else {
-      // const errCode = resultCodeInquiry(res.data.errCode)
-      yield put(loadDataFailed())
-      yield put(loadingData(false))
+      yield put(loginSuccess(""))
+      yield put(loading(false))
     }
   } catch (err) {}
 }
 
-function* reset() {
-  try {
-    yield put(loadDataFailed())
-  } catch (err) {}
-}
-
-function* dataWatcher() {
-  yield takeEvery(actionTypes.LOAD_DATA, dataRequest)
-  yield takeEvery(actionTypes.RESET, reset)
+function* loginWatcher() {
+  yield takeEvery(actionTypes.LOGIN, loginRequest)
 }
 
 function* rootSaga() {
-  yield all([dataWatcher()])
+  yield all([loginWatcher()])
 }
 
 export default rootSaga

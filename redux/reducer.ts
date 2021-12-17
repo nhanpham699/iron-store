@@ -4,6 +4,7 @@ import { Action, actionTypes, AppState } from "./types"
 export const initialState: AppState = {
   error: false,
   loading: false,
+  username: "",
 }
 
 const reducer = (
@@ -11,10 +12,15 @@ const reducer = (
   action: Action | { type: typeof HYDRATE; payload: AppState }
 ): AppState => {
   switch (action.type) {
-    case actionTypes.LOAD_DATA_SUCCESS:
+    case actionTypes.LOGIN_SUCCESS:
       return {
         ...state,
-        ...{ inquiryData: action.data },
+        ...{ username: action.username },
+      }
+    case actionTypes.LOADING:
+      return {
+        ...state,
+        ...{ loading: action.load },
       }
     default:
       return state
