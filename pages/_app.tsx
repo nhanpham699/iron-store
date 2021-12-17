@@ -5,6 +5,7 @@ import App from "next/app"
 import { AppProps } from "next/dist/shared/lib/router/router"
 import React from "react"
 import { PersistGate } from "redux-persist/integration/react"
+import TemporaryDrawer from "../components/Drawer"
 import { theme } from "../components/MuiTheme"
 import nextI18NextConfig from "../next-i18next.config.js"
 import { persistor, wrapper } from "../redux/store"
@@ -28,6 +29,7 @@ class MyApp extends App<AppProps> {
         <PersistGate loading={null} persistor={persistor}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
+          <TemporaryDrawer />
           <Component {...pageProps} />
         </PersistGate>
       </ThemeProvider>
