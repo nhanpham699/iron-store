@@ -1,67 +1,89 @@
-import MUIDataTable from "mui-datatables"
-import React from "react"
+import { Box } from "@mui/material"
+import MaterialTable from "material-table"
+import React, { useState } from "react"
 
-const Producttable = () => {
-  const columns = ["Name", "Title", "Location", "Age", "Salary"]
+export default function Producttable() {
+  type IType =
+    | "string"
+    | "boolean"
+    | "numeric"
+    | "date"
+    | "datetime"
+    | "time"
+    | "currency"
+  const string: IType = "string"
 
-  const data = [
-    ["Gabby George", "Business Analyst", "Minneapolis", 30, "$100,000"],
-    ["Aiden Lloyd", "Business Consultant", "Dallas", 55, "$200,000"],
-    ["Jaden Collins", "Attorney", "Santa Ana", 27, "$500,000"],
-    ["Franky Rees", "Business Analyst", "St. Petersburg", 22, "$50,000"],
-    ["Aaren Rose", "Business Consultant", "Toledo", 28, "$75,000"],
-    ["Blake Duncan", "Business Management Analyst", "San Diego", 65, "$94,000"],
-    ["Frankie Parry", "Agency Legal Counsel", "Jacksonville", 71, "$210,000"],
-    ["Lane Wilson", "Commercial Specialist", "Omaha", 19, "$65,000"],
-    ["Robin Duncan", "Business Analyst", "Los Angeles", 20, "$77,000"],
-    ["Mel Brooks", "Business Consultant", "Oklahoma City", 37, "$135,000"],
-    ["Harper White", "Attorney", "Pittsburgh", 52, "$420,000"],
-    ["Kris Humphrey", "Agency Legal Counsel", "Laredo", 30, "$150,000"],
-    ["Frankie Long", "Industrial Analyst", "Austin", 31, "$170,000"],
-    ["Brynn Robbins", "Business Analyst", "Norfolk", 22, "$90,000"],
-    ["Justice Mann", "Business Consultant", "Chicago", 24, "$133,000"],
-    [
-      "Addison Navarro",
-      "Business Management Analyst",
-      "New York",
-      50,
-      "$295,000",
-    ],
-    ["Jesse Welch", "Agency Legal Counsel", "Seattle", 28, "$200,000"],
-    ["Eli Mejia", "Commercial Specialist", "Long Beach", 65, "$400,000"],
-    ["Gene Leblanc", "Industrial Analyst", "Hartford", 34, "$110,000"],
-    ["Danny Leon", "Computer Scientist", "Newark", 60, "$220,000"],
-    ["Lane Lee", "Corporate Counselor", "Cincinnati", 52, "$180,000"],
-    ["Jesse Hall", "Business Analyst", "Baltimore", 44, "$99,000"],
-    ["Danni Hudson", "Agency Legal Counsel", "Tampa", 37, "$90,000"],
-    ["Terry Macdonald", "Commercial Specialist", "Miami", 39, "$140,000"],
-    ["Justice Mccarthy", "Attorney", "Tucson", 26, "$330,000"],
-    ["Silver Carey", "Computer Scientist", "Memphis", 47, "$250,000"],
-    ["Franky Miles", "Industrial Analyst", "Buffalo", 49, "$190,000"],
-    ["Glen Nixon", "Corporate Counselor", "Arlington", 44, "$80,000"],
-    [
-      "Gabby Strickland",
-      "Business Process Consultant",
-      "Scottsdale",
-      26,
-      "$45,000",
-    ],
-    ["Mason Ray", "Computer Scientist", "San Francisco", 39, "$142,000"],
-  ]
+  const [columns, setColumns] = useState([
+    { title: "Name", field: "name", type: "string" as const },
+    {
+      title: "Surname",
+      field: "surname",
+      initialEditValue: "initial edit value",
+      type: "string" as const,
+    },
+    { title: "Birth Year", field: "birthYear", type: "string" as const },
+    {
+      title: "Birth Place",
+      field: "birthCity",
+      lookup: { 34: "İstanbul", 63: "Şanlıurfa" },
+      type: "string" as const,
+    },
+  ])
 
-  const options: any = {
-    filterType: "dropdown",
-    responsive: "stacked",
-  }
-
+  const [data, setData] = useState([
+    {
+      name: "Mehmet",
+      surname: "Baran",
+      birthYear: 1987,
+      birthCity: 63,
+      type: string,
+    },
+    {
+      name: "Zerya Betül",
+      surname: "Baran",
+      birthYear: 2017,
+      birthCity: 34,
+      type: string,
+    },
+  ])
   return (
-    <MUIDataTable
-      title={"ACME Employee list"}
-      data={data}
-      columns={columns}
-      options={options}
-    />
+    <Box>
+      <MaterialTable
+        title="Editable Preview"
+        columns={columns}
+        data={data}
+        editable={{
+          onRowAdd: (newData) =>
+            new Promise((resolve: any) => {
+              setTimeout(() => {
+                setData([...data, newData])
+                resolve()
+              }, 1000)
+            }),
+          onRowUpdate: (newData, oldData: any) =>
+            new Promise((resolve: any) => {
+              setTimeout(() => {
+                const dataUpdate = [...data]
+                const index = oldData.tableData.id
+                dataUpdate[index] = newData
+                setData([...dataUpdate])
+
+                resolve()
+              }, 1000)
+            }),
+          onRowDelete: (oldData: any) =>
+            new Promise((resolve: any) => {
+              setTimeout(() => {
+                const dataDelete = [...data]
+                const index = oldData.tableData.id
+                dataDelete.splice(index, 1)
+                setData([...dataDelete])
+
+                resolve()
+              }, 1000)
+            }),
+        }}
+      />
+    </Box>
   )
 }
-
-export default Producttable

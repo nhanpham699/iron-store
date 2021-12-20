@@ -9,7 +9,6 @@ import Container from "@mui/material/Container"
 import CssBaseline from "@mui/material/CssBaseline"
 import Divider from "@mui/material/Divider"
 import MuiDrawer from "@mui/material/Drawer"
-import Grid from "@mui/material/Grid"
 import IconButton from "@mui/material/IconButton"
 import Link from "@mui/material/Link"
 import List from "@mui/material/List"
@@ -202,10 +201,9 @@ function DashboardContent(props: IProps) {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
-              {props.component}
-              {/* Chart */}
-              {/* <Grid item xs={12} md={8} lg={9}>
+            {props.component}
+            {/* Chart */}
+            {/* <Grid item xs={12} md={8} lg={9}>
                 <Paper
                   sx={{
                     p: 2,
@@ -217,8 +215,8 @@ function DashboardContent(props: IProps) {
                   <Chart />
                 </Paper>
               </Grid> */}
-              {/* Recent Deposits */}
-              {/* <Grid item xs={12} md={4} lg={3}>
+            {/* Recent Deposits */}
+            {/* <Grid item xs={12} md={4} lg={3}>
                 <Paper
                   sx={{
                     p: 2,
@@ -230,13 +228,12 @@ function DashboardContent(props: IProps) {
                   <Deposits />
                 </Paper>
               </Grid> */}
-              {/* Recent Orders */}
-              {/* <Grid item xs={12}>
+            {/* Recent Orders */}
+            {/* <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
                   <Orders />
                 </Paper>
               </Grid> */}
-            </Grid>
             <Copyright sx={{ pt: 4 }} />
           </Container>
         </Box>
