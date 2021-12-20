@@ -1,6 +1,8 @@
 import createEmotionServer from "@emotion/server/create-instance"
+import { ServerStyleSheets } from "@mui/styles"
 import Document, { Head, Html, Main, NextScript } from "next/document"
 import * as React from "react"
+import { theme } from "../components/MuiTheme"
 import createEmotionCache from "../utils/createEmotionCache"
 
 export default class MyDocument extends Document {
@@ -18,6 +20,7 @@ export default class MyDocument extends Document {
             rel="stylesheet"
             href="https://fonts.googleapis.com/icon?family=Material+Icons"
           />
+          <meta name="theme-color" content={theme.palette.primary.main} />
         </Head>
         <body>
           <Main />
@@ -57,6 +60,7 @@ MyDocument.getInitialProps = async (ctx) => {
 
   // You can consider sharing the same emotion cache between all the SSR requests to speed up performance.
   // However, be aware that it can have global side effects.
+  const sheets = new ServerStyleSheets()
   const cache = createEmotionCache()
   const { extractCriticalToChunks } = createEmotionServer(cache)
 
@@ -64,9 +68,9 @@ MyDocument.getInitialProps = async (ctx) => {
     originalRenderPage({
       enhanceApp: (App: any) =>
         function EnhanceApp(props) {
-          return <App emotionCache={cache} {...props} />
+          return sheets.collect(<App emotionCache={cache} {...props} />)
         },
-    })
+    }) // chổ này cực ký quan trọng nhé, nếu kh có thì kh dùng được makestyle nhé
 
   const initialProps = await Document.getInitialProps(ctx)
   // This is important. It prevents emotion to render invalid HTML.

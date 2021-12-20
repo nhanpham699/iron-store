@@ -9,11 +9,30 @@ import Paper from "@mui/material/Paper"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
+import { withIronSessionSsr } from "iron-session/next"
 import * as React from "react"
 import { useDispatch, useSelector } from "react-redux"
 import Progress from "../../components/Progress"
+import { sessionOptions } from "../../lib/iron-session"
 import { login } from "../../redux/actions"
 
+export const getServerSideProps = withIronSessionSsr(
+  async function getServerSideProps({ req }: any) {
+    const jwt = req.session.jwt
+    if (jwt) {
+      return {
+        redirect: {
+          destination: "/",
+          permanent: false,
+        },
+      }
+    }
+    return {
+      props: { jwt: false },
+    }
+  },
+  sessionOptions
+)
 // const myLoader = ({ src, width, quality }: any) => {
 //   return `${window.location.protocol}//${
 //     window.location.host
@@ -121,6 +140,13 @@ export default function SignInSide() {
                 id="password"
                 autoComplete="current-password"
               />
+              {username === "null" && (
+                <Typography
+                  style={{ fontSize: 14, color: "red", marginLeft: 3 }}
+                >
+                  Tên đăng nhập hoặc mật khẩu không đúng!
+                </Typography>
+              )}
               <Button
                 style={{ background: "green" }}
                 type="submit"

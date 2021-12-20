@@ -1,12 +1,18 @@
-import { NextApiRequest, NextApiResponse } from "next"
+import { NextApiResponse } from "next"
+import { withSessionRoute } from "../../lib/iron-session"
 import connectDB from "../../utils/mongodb"
-const bcrypt = require("bcrypt")
+const User = require("../../models/users")
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const salt = bcrypt.genSaltSync(10)
-  const hash = bcrypt.hashSync("thaitrinh220514", salt)
-  console.log(hash)
-  res.status(200).json({ username: "Nhan dep trai" })
+const handler = async (req: any, res: NextApiResponse) => {
+  const { username, password } = req.body
+  const user = await User.findByCredentials(username, password)
+  if (!user) {
+    return res.status(250).send({ error: "Đăng nhập không thành công!" })
+  }
+  const jwt = await user.generateAuthToken()
+  req.session.jwt = jwt
+  await req.session.save()
+  res.send({ loggedIn: true })
 }
 
-export default connectDB(handler)
+export default connectDB(withSessionRoute(handler))

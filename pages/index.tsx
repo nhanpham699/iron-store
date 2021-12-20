@@ -1,17 +1,33 @@
-import { Box } from "@mui/material"
+import { withIronSessionSsr } from "iron-session/next"
+// import { InferGetServerSidePropsType } from "next"
 import React from "react"
-import Dashboard from "../components/dashboard/Dashboard"
-import useStyles from "../styles"
+import Dashboard from "../components/Dashboard/Dashboard"
+// import Producttable from "../components/Producttable"
+import { sessionOptions } from "../lib/iron-session"
+
+export const getServerSideProps = withIronSessionSsr(
+  async function getServerSideProps({ req }: any) {
+    const jwt = req.session.jwt
+    if (!jwt) {
+      return {
+        redirect: {
+          destination: "/login",
+          permanent: false,
+        },
+      }
+    }
+    return {
+      props: { jwt },
+    }
+  },
+  sessionOptions
+)
 
 function Index() {
-  const classes = useStyles()
-  return (
-    <Box>
-      <Dashboard />
-    </Box>
-  )
+  // return <Producttable />
+  return <p>Home</p>
 }
 
 export default function Home() {
-  return <Index />
+  return <Dashboard component={<Index />} />
 }

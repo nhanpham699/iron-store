@@ -1,4 +1,5 @@
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft"
+import ExitToAppIcon from "@mui/icons-material/ExitToApp"
 import MenuIcon from "@mui/icons-material/Menu"
 import NotificationsIcon from "@mui/icons-material/Notifications"
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar"
@@ -12,16 +13,24 @@ import Grid from "@mui/material/Grid"
 import IconButton from "@mui/material/IconButton"
 import Link from "@mui/material/Link"
 import List from "@mui/material/List"
-import Paper from "@mui/material/Paper"
 import { createTheme, styled, ThemeProvider } from "@mui/material/styles"
 import Toolbar from "@mui/material/Toolbar"
 import Typography from "@mui/material/Typography"
+import { createStyles, makeStyles } from "@mui/styles"
+import axios from "axios"
+import { useRouter } from "next/router"
 import * as React from "react"
-import Chart from "./Chart"
-import Deposits from "./Deposits"
 import { mainListItems } from "./listItems"
-import Orders from "./Orders"
 
+const useStyles = makeStyles(() =>
+  createStyles({
+    logout: {
+      "&:hover": {
+        cursor: "pointer",
+      },
+    },
+  })
+)
 function Copyright(props: any) {
   return (
     <Typography
@@ -93,9 +102,15 @@ const Drawer = styled(MuiDrawer, {
   },
 }))
 
+interface IProps {
+  component: any
+}
+
 const mdTheme = createTheme()
 
-function DashboardContent() {
+function DashboardContent(props: IProps) {
+  const classes = useStyles()
+  const router = useRouter()
   const [open, setOpen] = React.useState(true)
   const toggleDrawer = () => {
     setOpen(!open)
@@ -156,6 +171,22 @@ function DashboardContent() {
           <List>{mainListItems}</List>
           <Divider />
           {/* <List>{secondaryListItems}</List> */}
+          <Box
+            className={classes.logout}
+            display="flex"
+            position="absolute"
+            bottom={30}
+            left={20}
+            onClick={async () => {
+              const res = await axios.get("api/logout")
+              if (res.data) {
+                router.replace("/login")
+              }
+            }}
+          >
+            <ExitToAppIcon style={{ fontSize: 22, marginRight: 5 }} />
+            <Typography>Log out</Typography>
+          </Box>
         </Drawer>
         <Box
           component="main"
@@ -172,8 +203,9 @@ function DashboardContent() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
+              {props.component}
               {/* Chart */}
-              <Grid item xs={12} md={8} lg={9}>
+              {/* <Grid item xs={12} md={8} lg={9}>
                 <Paper
                   sx={{
                     p: 2,
@@ -184,9 +216,9 @@ function DashboardContent() {
                 >
                   <Chart />
                 </Paper>
-              </Grid>
+              </Grid> */}
               {/* Recent Deposits */}
-              <Grid item xs={12} md={4} lg={3}>
+              {/* <Grid item xs={12} md={4} lg={3}>
                 <Paper
                   sx={{
                     p: 2,
@@ -197,13 +229,13 @@ function DashboardContent() {
                 >
                   <Deposits />
                 </Paper>
-              </Grid>
+              </Grid> */}
               {/* Recent Orders */}
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
                   <Orders />
                 </Paper>
-              </Grid>
+              </Grid> */}
             </Grid>
             <Copyright sx={{ pt: 4 }} />
           </Container>
@@ -213,6 +245,4 @@ function DashboardContent() {
   )
 }
 
-export default function Dashboard() {
-  return <DashboardContent />
-}
+export default DashboardContent
