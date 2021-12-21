@@ -201,7 +201,7 @@ function DashboardContent(props: IProps) {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            {props.component}
+            <Box>{props.component}</Box>
             {/* Chart */}
             {/* <Grid item xs={12} md={8} lg={9}>
                 <Paper
