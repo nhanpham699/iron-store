@@ -2,30 +2,63 @@ import DashboardIcon from "@mui/icons-material/Dashboard"
 import ListItem from "@mui/material/ListItem"
 import ListItemIcon from "@mui/material/ListItemIcon"
 import ListItemText from "@mui/material/ListItemText"
-import * as React from "react"
+import { createStyles, makeStyles } from "@mui/styles"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import React from "react"
 
-export const mainListItems = (
-  <div>
-    <ListItem button>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Quản lý kho hàng" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Quản lý bán hàng" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Thống kê doanh thu" />
-    </ListItem>
-  </div>
+const useStyles = makeStyles(() =>
+  createStyles({
+    active: {
+      background: "#e6ffe6",
+    },
+  })
 )
+
+const MainListItems = () => {
+  const classes = useStyles()
+  const router = useRouter()
+  return (
+    <div>
+      <Link href="/products">
+        <ListItem
+          className={router.pathname === "/products" ? classes.active : ""}
+          button
+        >
+          <ListItemIcon>
+            <DashboardIcon />
+          </ListItemIcon>
+          <ListItemText primary="Quản lý kho hàng" />
+        </ListItem>
+      </Link>
+      <Link href="/orders">
+        <ListItem
+          className={router.pathname === "/orders" ? classes.active : ""}
+          button
+        >
+          <ListItemIcon>
+            <DashboardIcon />
+          </ListItemIcon>
+          <ListItemText primary="Quản lý bán hàng" />
+        </ListItem>
+      </Link>
+
+      <Link href="/statistics">
+        <ListItem
+          className={router.pathname === "/statistics" ? classes.active : ""}
+          button
+        >
+          <ListItemIcon>
+            <DashboardIcon />
+          </ListItemIcon>
+          <ListItemText primary="Thống kê doanh thu" />
+        </ListItem>
+      </Link>
+    </div>
+  )
+}
+
+export default MainListItems
 
 // export const secondaryListItems = (
 //   <div>

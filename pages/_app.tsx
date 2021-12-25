@@ -23,6 +23,7 @@ class MyApp extends App<AppProps> {
 
   render() {
     const { Component, pageProps } = this.props
+
     return (
       <ThemeProvider theme={theme}>
         {/* <PersistGate loading={null} persistor={persistor}> */}

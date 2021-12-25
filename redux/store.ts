@@ -1,4 +1,4 @@
-import { createWrapper, MakeStore } from "next-redux-wrapper"
+import { createWrapper } from "next-redux-wrapper"
 import { applyMiddleware, createStore, Middleware, StoreEnhancer } from "redux"
 import { composeWithDevTools } from "redux-devtools-extension"
 // import { persistReducer } from "redux-persist"
@@ -6,7 +6,6 @@ import { composeWithDevTools } from "redux-devtools-extension"
 import createSagaMiddleware from "redux-saga"
 import rootReducer from "./reducer"
 import rootSaga from "./saga"
-import { AppState } from "./types"
 
 // const persistConfig = {
 //   key: "root",
@@ -25,11 +24,11 @@ const bindMiddleware = (middleware: Middleware[]): StoreEnhancer => {
 const sagaMiddleware = createSagaMiddleware()
 const store = createStore(rootReducer, bindMiddleware([sagaMiddleware]))
 
-export const makeStore: MakeStore<AppState> = () => {
+export const makeStore = () => {
   store.sagaTask = sagaMiddleware.run(rootSaga)
   return store
 }
 
 // export const persistor = persistStore(store)
 
-export const wrapper = createWrapper<AppState>(makeStore)
+export const wrapper = createWrapper(makeStore)

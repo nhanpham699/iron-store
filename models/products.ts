@@ -5,6 +5,8 @@ const productSchema = new Schema({
   name: String,
   price: Number,
   quantity: Number,
+  date: String,
+  type: String,
 })
 
 // (mongoose as any).models = {}

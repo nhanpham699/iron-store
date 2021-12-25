@@ -6,15 +6,15 @@ import CssBaseline from "@mui/material/CssBaseline"
 import Grid from "@mui/material/Grid"
 import Link from "@mui/material/Link"
 import Paper from "@mui/material/Paper"
-import { createTheme, ThemeProvider } from "@mui/material/styles"
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
 import { withIronSessionSsr } from "iron-session/next"
-import * as React from "react"
+import React from "react"
 import { useDispatch, useSelector } from "react-redux"
 import Progress from "../../components/Progress"
 import { sessionOptions } from "../../lib/iron-session"
-import { login } from "../../redux/actions"
+import AppState from "../../redux/types"
+import { login } from "./actions"
 
 export const getServerSideProps = withIronSessionSsr(
   async function getServerSideProps({ req }: any) {
@@ -60,11 +60,9 @@ function Copyright(props: any) {
   )
 }
 
-const theme = createTheme()
-
 export default function SignInSide() {
   const dispatch = useDispatch()
-  const { username, loading } = useSelector((state: any) => state)
+  const { username, loading } = useSelector((state: AppState) => state.user)
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
@@ -79,7 +77,7 @@ export default function SignInSide() {
   }
 
   return (
-    <ThemeProvider theme={theme}>
+    <Box>
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
@@ -98,7 +96,16 @@ export default function SignInSide() {
             backgroundPosition: "center",
           }}
         />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid
+          position={"relative"}
+          item
+          xs={12}
+          sm={8}
+          md={5}
+          component={Paper}
+          elevation={6}
+          square
+        >
           <Box
             sx={{
               my: 8,
@@ -108,7 +115,7 @@ export default function SignInSide() {
               alignItems: "center",
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: "green" }}>
+            <Avatar sx={{ m: 1, bgcolor: "#008000" }}>
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
@@ -148,7 +155,7 @@ export default function SignInSide() {
                 </Typography>
               )}
               <Button
-                style={{ background: "green" }}
+                style={{ background: "#008000" }}
                 type="submit"
                 fullWidth
                 variant="contained"
@@ -157,12 +164,11 @@ export default function SignInSide() {
                 Đăng nhập
               </Button>
               <Copyright sx={{ mt: 5 }} />
-              {/* <Typography>{loading.toString()}</Typography> */}
             </Box>
+            {loading && <Progress position="absolute" />}
           </Box>
         </Grid>
       </Grid>
-      {loading && <Progress bg="rgb(0 0 0 / 16%)" />}
-    </ThemeProvider>
+    </Box>
   )
 }

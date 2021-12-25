@@ -3,7 +3,16 @@ import { Box, TextField, Tooltip } from "@mui/material"
 import { createStyles, makeStyles } from "@mui/styles"
 import dynamic from "next/dynamic"
 import React from "react"
-
+import { useDispatch, useSelector } from "react-redux"
+import { formatMoney } from "../../hooks/money"
+import {
+  editData,
+  loadDataRequest,
+  updateDataRequest,
+} from "../../pages/products/actions"
+import { initEditedState } from "../../pages/products/reducer"
+import AppState from "../../redux/types"
+import Progress from "../Progress"
 const MUIDataTable = dynamic(() => import("mui-datatables"), { ssr: false })
 
 const useStyles = makeStyles((theme: any) =>
@@ -16,29 +25,37 @@ const useStyles = makeStyles((theme: any) =>
   })
 )
 
-export default function Producttable() {
-  // const columns = ["Name", "Title", "Location", "Age", "Salary"]
-  const classes = useStyles()
-  const [isEdit, setEdit] = React.useState<any>({
-    _id: -1,
-    name: "",
-  })
+const Producttable = () => {
+  const { data, loading, isEdited } = useSelector(
+    (state: AppState) => state.products
+  )
 
-  const handleUpdate = (_id: number) => {
-    console.log(_id)
+  const dispatch = useDispatch()
+  const classes = useStyles()
+
+  // const [isEdit, setEdit] = React.useState<any>(initStateEdit)
+
+  React.useEffect(() => {
+    dispatch(loadDataRequest())
+  }, [])
+
+  const handleUpdate = () => {
+    dispatch(updateDataRequest(isEdited))
   }
 
-  const handleEdit = () => {}
+  const handleDelete = (_id: string) => {
+    dispatch(editData(initEditedState))
+  }
+
   const columns = [
     {
       name: "action",
-      label: "Actions",
+      label: "Thao tác",
       options: {
         customBodyRender: (value: any, tableMeta: any) => {
-          const id = data[tableMeta?.rowIndex]?._id
           return (
             <Box>
-              {isEdit?._id !== id ? (
+              {isEdited?._id != data[tableMeta?.rowIndex]?._id ? (
                 <>
                   <Tooltip
                     title="Edit"
@@ -47,12 +64,16 @@ export default function Producttable() {
                   >
                     <Edit
                       onClick={() => {
-                        const index = tableMeta?.rowIndex
-                        console.log(data[index])
-                        setEdit({
-                          _id: index,
-                          name: data[index]?.name,
-                        })
+                        dispatch(
+                          editData({
+                            _id: data[tableMeta?.rowIndex]?._id,
+                            name: data[tableMeta?.rowIndex]?.name,
+                            price: data[tableMeta?.rowIndex]?.price,
+                            type: data[tableMeta?.rowIndex]?.type,
+                            quantity: data[tableMeta?.rowIndex]?.quantity,
+                            date: data[tableMeta?.rowIndex]?.date,
+                          })
+                        )
                       }}
                     />
                   </Tooltip>
@@ -62,7 +83,11 @@ export default function Producttable() {
                     aria-label="delete"
                     className={classes.cursor}
                   >
-                    <Delete onClick={handleEdit} />
+                    <Delete
+                      onClick={() =>
+                        handleDelete(data[tableMeta?.rowIndex]?._id)
+                      }
+                    />
                   </Tooltip>
                 </>
               ) : (
@@ -74,7 +99,7 @@ export default function Producttable() {
                   >
                     <Done
                       style={{ color: "#1bb55c", fontSize: 25 }}
-                      onClick={() => handleUpdate(id)}
+                      onClick={handleUpdate}
                     />
                   </Tooltip>
                   <Tooltip
@@ -84,10 +109,7 @@ export default function Producttable() {
                   >
                     <Close
                       onClick={() => {
-                        setEdit({
-                          _id: -1,
-                          name: "",
-                        })
+                        dispatch(editData(initEditedState))
                       }}
                       style={{ color: "#CC3300", fontSize: 25 }}
                     />
@@ -101,23 +123,154 @@ export default function Producttable() {
     },
     {
       name: "name",
-      label: "Name",
+      label: "Tên hàng",
       options: {
         customBodyRender: (value: any, tableMeta: any) => {
-          // const id = data ? data[tableMeta?.rowIndex]?.id : -1
           return (
             <Box>
-              {isEdit?._id === tableMeta?.rowIndex ? (
+              {isEdited?._id === data[tableMeta?.rowIndex]?._id ? (
                 <TextField
                   InputProps={{
                     style: { fontSize: 14 },
                   }}
                   variant="standard"
-                  value={isEdit?.name}
+                  value={isEdited?.name}
                   onChange={(event) =>
-                    setEdit({ ...isEdit, name: event.target.value })
+                    dispatch(
+                      editData({ ...isEdited, name: event.target.value })
+                    )
                   }
-                  error={isEdit?.name?.length === 0 ? true : false}
+                  error={isEdited.name.length === 0 ? true : false}
+                />
+              ) : (
+                value
+              )}
+            </Box>
+          )
+        },
+      },
+    },
+    {
+      name: "price",
+      label: "Giá vốn",
+      options: {
+        customBodyRender: (value: any, tableMeta: any) => {
+          return (
+            <Box>
+              {isEdited?._id === data[tableMeta?.rowIndex]?._id ? (
+                <TextField
+                  type="number"
+                  InputProps={{
+                    style: { fontSize: 14 },
+                  }}
+                  variant="standard"
+                  value={isEdited?.price}
+                  onChange={(event) =>
+                    dispatch(
+                      editData({
+                        ...isEdited,
+                        price: Number(event.target.value),
+                      })
+                    )
+                  }
+                  error={isEdited.price === 0 ? true : false}
+                />
+              ) : (
+                formatMoney(value)
+              )}
+            </Box>
+          )
+        },
+      },
+    },
+    {
+      name: "type",
+      label: "Loại hàng",
+      options: {
+        customBodyRender: (value: any, tableMeta: any) => {
+          return (
+            <Box>
+              {isEdited?._id === data[tableMeta?.rowIndex]?._id ? (
+                <TextField
+                  InputProps={{
+                    style: { fontSize: 14 },
+                  }}
+                  variant="standard"
+                  value={isEdited?.type}
+                  onChange={(event) =>
+                    dispatch(
+                      editData({
+                        ...isEdited,
+                        type: event.target.value,
+                      })
+                    )
+                  }
+                  error={isEdited.type.length === 0 ? true : false}
+                />
+              ) : (
+                value
+              )}
+            </Box>
+          )
+        },
+      },
+    },
+    {
+      name: "quantity",
+      label: "Số lượng trong kho",
+      options: {
+        customBodyRender: (value: any, tableMeta: any) => {
+          return (
+            <Box>
+              {isEdited?._id === data[tableMeta?.rowIndex]?._id ? (
+                <TextField
+                  type="number"
+                  InputProps={{
+                    style: { fontSize: 14 },
+                  }}
+                  variant="standard"
+                  value={isEdited?.quantity}
+                  onChange={(event) =>
+                    dispatch(
+                      editData({
+                        ...isEdited,
+                        quantity: Number(event.target.value),
+                      })
+                    )
+                  }
+                  error={isEdited.quantity === 0 ? true : false}
+                />
+              ) : (
+                value
+              )}
+            </Box>
+          )
+        },
+      },
+    },
+    {
+      name: "date",
+      label: "Ngày nhập kho",
+      options: {
+        customBodyRender: (value: any, tableMeta: any) => {
+          return (
+            <Box>
+              {isEdited?._id === data[tableMeta?.rowIndex]?._id ? (
+                <TextField
+                  InputProps={{
+                    style: { fontSize: 14 },
+                  }}
+                  variant="standard"
+                  value={isEdited?.date}
+                  onChange={(event) =>
+                    dispatch(
+                      editData({
+                        ...isEdited,
+                        date: event.target.value,
+                      })
+                    )
+                  }
+                  error={isEdited.date.length === 0 ? true : false}
                 />
               ) : (
                 value
@@ -129,22 +282,17 @@ export default function Producttable() {
     },
   ]
 
-  const data: any = [
-    { _id: 0, name: "Gabby George" },
-    { _id: 1, name: "Gabby George222" },
-  ]
-
-  const options: any = {
-    filterType: "dropdown",
-    responsive: "scroll",
-  }
-
   return (
-    <MUIDataTable
-      title={"ACME Employee list"}
-      data={data}
-      columns={columns}
-      options={options}
-    />
+    <Box position="relative">
+      <MUIDataTable
+        title={"Danh sách hàng trong kho"}
+        data={data}
+        columns={columns}
+        // options={options}
+      />
+      {loading && <Progress position="absolute" />}
+    </Box>
   )
 }
+
+export default Producttable

@@ -12,7 +12,7 @@ import React from "react"
 // )
 
 interface IProps {
-  bg: string
+  position: any
 }
 
 export default function Progress(props: IProps) {
@@ -25,15 +25,14 @@ export default function Progress(props: IProps) {
       top={0}
       zIndex={1000}
       overflow="hidden"
-      position="fixed"
+      position={props.position}
       display="flex"
       alignItems="center"
       justifyContent="center"
-      bgcolor={props.bg}
+      bgcolor="rgb(0 0 0 / 16%)"
       // className={classes.progress}
-      color="primary"
     >
-      <CircularProgress color="secondary" />
+      <CircularProgress color="primary" />
     </Box>
   )
 }

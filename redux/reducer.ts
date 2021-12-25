@@ -1,30 +1,10 @@
-import { HYDRATE } from "next-redux-wrapper"
-import { Action, actionTypes, AppState } from "./types"
+import { combineReducers } from "redux"
+import userReducer from "../pages/login/reducer"
+import productReducer from "../pages/products/reducer"
 
-export const initialState: AppState = {
-  error: false,
-  loading: false,
-  username: "",
-}
+const rootReducer = combineReducers({
+  user: userReducer,
+  products: productReducer,
+})
 
-const reducer = (
-  state = initialState,
-  action: Action | { type: typeof HYDRATE; payload: AppState }
-): AppState => {
-  switch (action.type) {
-    case actionTypes.LOGIN_SUCCESS:
-      return {
-        ...state,
-        ...{ username: action.username },
-      }
-    case actionTypes.LOADING:
-      return {
-        ...state,
-        ...{ loading: action.load },
-      }
-    default:
-      return state
-  }
-}
-
-export default reducer
+export default rootReducer
