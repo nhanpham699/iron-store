@@ -1,4 +1,3 @@
-import { createTheme } from "@mui/material/styles"
 import { withIronSessionSsr } from "iron-session/next"
 import React from "react"
 import Dashboard from "../../components/dashboard/Dashboard"
@@ -22,14 +21,6 @@ export const getServerSideProps = withIronSessionSsr(
   },
   sessionOptions
 )
-
-// const myLoader = ({ src, width, quality }: any) => {
-//   return `${window.location.protocol}//${
-//     window.location.host
-//   }/${src}?w=${width}&q=${quality || 75}`
-// }
-
-const theme = createTheme()
 
 const Product = () => {
   return <Dashboard component={<Producttable />} />

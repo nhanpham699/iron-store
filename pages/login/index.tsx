@@ -63,17 +63,15 @@ function Copyright(props: any) {
 export default function SignInSide() {
   const dispatch = useDispatch()
   const { username, loading } = useSelector((state: AppState) => state.user)
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    // eslint-disable-next-line no-console
     const req = {
       username: data.get("email") as string,
       password: data.get("password") as string,
     }
-
     dispatch(login(req))
-    console.log(req)
   }
 
   return (
