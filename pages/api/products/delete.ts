@@ -4,7 +4,7 @@ const Product = require("../../../models/products")
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const products = await Product.deleteOne({ _id: req.body._id })
+    const products = await Product.deleteOne(req.body)
     if (products) {
       res.status(200).json({ success: true })
     }

@@ -31,11 +31,12 @@ const updateDataPost = (data: IProduct) =>
     url: `/products/update`,
     data: data,
   })
+
 const dataDelete = (_id: string) =>
   dataInstance.request({
     method: "POST",
     url: `/products/delete`,
-    data: _id,
+    data: { _id: _id },
   })
 
 function* loadDataRequest(): any {
