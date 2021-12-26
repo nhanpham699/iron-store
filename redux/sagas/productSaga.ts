@@ -6,9 +6,9 @@ import {
   loadDataSuccess,
   loading,
   updateDataSuccess,
-} from "./actions"
-import { initEditedState } from "./reducer"
-import { actionTypes, IProduct } from "./types"
+} from "../actions/productActions"
+import { initEditedState } from "../reducers/productReducer"
+import { actionTypes, IProduct } from "../types/productTypes"
 
 const dataInstance = axios.create({ baseURL: "/api" })
 

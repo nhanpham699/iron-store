@@ -1,6 +1,6 @@
 import { all } from "redux-saga/effects"
-import loginWatcher from "../pages/login/saga"
-import loadDataWatcher from "../pages/products/saga"
+import loadDataWatcher from "./productSaga"
+import loginWatcher from "./userSaga"
 
 function* rootSaga() {
   yield all([loginWatcher(), loadDataWatcher()])

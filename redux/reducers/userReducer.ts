@@ -1,5 +1,5 @@
 import { HYDRATE } from "next-redux-wrapper"
-import { Action, actionTypes, UserState } from "./types"
+import { Action, actionTypes, UserState } from "../types/userTypes"
 
 export const initialState: UserState = {
   loading: false,

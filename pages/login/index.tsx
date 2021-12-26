@@ -13,8 +13,8 @@ import React from "react"
 import { useDispatch, useSelector } from "react-redux"
 import Progress from "../../components/Progress"
 import { sessionOptions } from "../../lib/iron-session"
+import { login } from "../../redux/actions/userActions"
 import AppState from "../../redux/types"
-import { login } from "./actions"
 
 export const getServerSideProps = withIronSessionSsr(
   async function getServerSideProps({ req }: any) {

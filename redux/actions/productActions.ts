@@ -1,4 +1,4 @@
-import { actionTypes, IProduct, ProductState } from "./types"
+import { actionTypes, IProduct, ProductState } from "../types/productTypes"
 // display products
 export function loadDataRequest() {
   return { type: actionTypes.LOAD_DATA_REQUEST }

@@ -1,8 +1,8 @@
 import axios from "axios"
 import { AnyAction } from "redux"
 import { call, put, takeEvery } from "redux-saga/effects"
-import { loading, loginSuccess } from "./actions"
-import { actionTypes } from "./types"
+import { loading, loginSuccess } from "../actions/userActions"
+import { actionTypes } from "../types/userTypes"
 
 const loginInstance = axios.create({ baseURL: "/api" })
 

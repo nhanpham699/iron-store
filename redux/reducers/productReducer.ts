@@ -1,5 +1,10 @@
 import { HYDRATE } from "next-redux-wrapper"
-import { Action, actionTypes, IProduct, ProductState } from "./types"
+import {
+  Action,
+  actionTypes,
+  IProduct,
+  ProductState,
+} from "../types/productTypes"
 
 export const initEditedState = {
   _id: "",

@@ -2,17 +2,18 @@ import { Close, Delete, Done, Edit } from "@mui/icons-material"
 import { Box, TextField, Tooltip } from "@mui/material"
 import { createStyles, makeStyles } from "@mui/styles"
 import dynamic from "next/dynamic"
-import React from "react"
+import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { formatMoney } from "../../hooks/money"
 import {
   editData,
   loadDataRequest,
   updateDataRequest,
-} from "../../pages/products/actions"
-import { initEditedState } from "../../pages/products/reducer"
+} from "../../redux/actions/productActions"
+import { initEditedState } from "../../redux/reducers/productReducer"
 import AppState from "../../redux/types"
 import Progress from "../Progress"
+
 const MUIDataTable = dynamic(() => import("mui-datatables"), { ssr: false })
 
 const useStyles = makeStyles((theme: any) =>
@@ -33,9 +34,7 @@ const Producttable = () => {
   const dispatch = useDispatch()
   const classes = useStyles()
 
-  // const [isEdit, setEdit] = React.useState<any>(initStateEdit)
-
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(loadDataRequest())
   }, [])
 

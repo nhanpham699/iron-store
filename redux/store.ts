@@ -4,8 +4,8 @@ import { composeWithDevTools } from "redux-devtools-extension"
 // import { persistReducer } from "redux-persist"
 // import storage from "redux-persist/lib/storage"
 import createSagaMiddleware from "redux-saga"
-import rootReducer from "./reducer"
-import rootSaga from "./saga"
+import rootReducer from "./reducers"
+import rootSaga from "./sagas"
 
 // const persistConfig = {
 //   key: "root",

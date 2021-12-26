@@ -1,4 +1,4 @@
-import { actionTypes } from "./types"
+import { actionTypes } from "../types/userTypes"
 
 export function login(req: any) {
   return { type: actionTypes.LOGIN, req }
