@@ -31,6 +31,17 @@ const productReducer = (
         ...state,
         data: action.data,
       }
+    case actionTypes.CREATE_DATA_SUCCESS:
+      state.data.push(action.data)
+      return {
+        ...state,
+      }
+    case actionTypes.DELETE_DATA_SUCCESS:
+      const newData = state.data.filter((pr: IProduct) => pr._id !== action._id)
+      return {
+        ...state,
+        data: newData,
+      }
     case actionTypes.EDIT_DATA:
       return {
         ...state,

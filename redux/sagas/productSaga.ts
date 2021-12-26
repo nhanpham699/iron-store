@@ -2,6 +2,8 @@ import axios from "axios"
 import { AnyAction } from "redux"
 import { call, put, takeEvery } from "redux-saga/effects"
 import {
+  createDataSuccess,
+  deleteDataSuccess,
   editData,
   loadDataSuccess,
   loading,
@@ -32,7 +34,7 @@ const updateDataPost = (data: IProduct) =>
 const dataDelete = (_id: string) =>
   dataInstance.request({
     method: "POST",
-    url: `/products/create`,
+    url: `/products/delete`,
     data: _id,
   })
 
@@ -51,14 +53,15 @@ function* loadDataRequest(): any {
 }
 
 function* createDataRequest(action: AnyAction): any {
+  console.log("in redux: ", action)
+
   try {
     yield put(loading(true))
     const res = yield call(createDataPost, action.data)
     if (!res.data.error) {
-      yield put(loadDataSuccess(res.data))
+      yield put(createDataSuccess(res.data))
       yield put(loading(false))
     } else {
-      yield put(loadDataSuccess([]))
       yield put(loading(false))
     }
   } catch (err) {}
@@ -81,12 +84,11 @@ function* updateDataRequest(action: AnyAction): any {
 function* deleteDataRequest(action: AnyAction): any {
   try {
     yield put(loading(true))
-    const res = yield call(dataDelete, action.data)
+    const res = yield call(dataDelete, action._id)
     if (!res.data.error) {
-      yield put(loadDataSuccess(res.data))
+      yield put(deleteDataSuccess(action._id))
       yield put(loading(false))
     } else {
-      yield put(loadDataSuccess([]))
       yield put(loading(false))
     }
   } catch (err) {}

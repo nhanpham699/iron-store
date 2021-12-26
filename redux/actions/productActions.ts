@@ -1,4 +1,9 @@
-import { actionTypes, IProduct, ProductState } from "../types/productTypes"
+import {
+  actionTypes,
+  IAdditionalProduct,
+  IProduct,
+  ProductState,
+} from "../types/productTypes"
 // display products
 export function loadDataRequest() {
   return { type: actionTypes.LOAD_DATA_REQUEST }
@@ -11,7 +16,7 @@ export function loadDataSuccess(data: ProductState[]) {
   }
 }
 // add a product
-export function createDataRequest(data: IProduct) {
+export function createDataRequest(data: IAdditionalProduct) {
   return { type: actionTypes.CREATE_DATA_REQUEST, data }
 }
 

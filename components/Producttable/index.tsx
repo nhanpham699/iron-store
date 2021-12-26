@@ -6,12 +6,14 @@ import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { formatMoney } from "../../hooks/money"
 import {
+  deleteDataRequest,
   editData,
   loadDataRequest,
   updateDataRequest,
 } from "../../redux/actions/productActions"
 import { initEditedState } from "../../redux/reducers/productReducer"
 import AppState from "../../redux/types"
+import AdditionalModal from "../Modal"
 import Progress from "../Progress"
 
 const MUIDataTable = dynamic(() => import("mui-datatables"), { ssr: false })
@@ -43,7 +45,8 @@ const Producttable = () => {
   }
 
   const handleDelete = (_id: string) => {
-    dispatch(editData(initEditedState))
+    // dispatch(editData(initEditedState))
+    dispatch(deleteDataRequest(_id))
   }
 
   const columns = [
@@ -283,6 +286,7 @@ const Producttable = () => {
 
   return (
     <Box position="relative">
+      <AdditionalModal />
       <MUIDataTable
         title={"Danh sách hàng trong kho"}
         data={data}

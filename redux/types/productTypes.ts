@@ -32,6 +32,14 @@ export interface IProduct {
   type: string
 }
 
+export interface IAdditionalProduct {
+  name: string
+  price: number
+  quantity: number
+  date: string
+  type: string
+}
+
 export interface ProductState {
   loading: boolean
   data: IProduct[]
@@ -49,6 +57,7 @@ export interface LoadDataSuccess {
 
 export interface CreateDataRequest {
   type: actionTypes.CREATE_DATA_REQUEST
+  data: IAdditionalProduct
 }
 
 export interface CreateDataSuccess {
@@ -67,11 +76,12 @@ export interface UpdateDataSuccess {
 
 export interface DeleteDataRequest {
   type: actionTypes.DELETE_DATA_REQUEST
+  _id: string
 }
 
 export interface DeleteDataSuccess {
   type: actionTypes.DELETE_DATA_SUCCESS
-  id: string
+  _id: string
 }
 
 export interface Loading {

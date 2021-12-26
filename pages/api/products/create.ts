@@ -4,8 +4,12 @@ const Product = require("../../../models/products")
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const products = await Product.create(req.body)
-    res.status(200).json(products)
+    const product = new Product(req.body)
+    await product.save()
+    req.body._id = product._id.toString()
+    if (product) {
+      res.status(200).json(req.body)
+    }
   } catch (error) {
     res.status(400).json({ success: false })
   }

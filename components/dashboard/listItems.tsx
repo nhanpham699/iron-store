@@ -31,7 +31,7 @@ const MainListItems = () => {
           <ListItemText primary="Quản lý kho hàng" />
         </ListItem>
       </Link>
-      <Link href="/orders">
+      <Link href="#">
         <ListItem
           className={router.pathname === "/orders" ? classes.active : ""}
           button
@@ -43,7 +43,7 @@ const MainListItems = () => {
         </ListItem>
       </Link>
 
-      <Link href="/statistics">
+      <Link href="#">
         <ListItem
           className={router.pathname === "/statistics" ? classes.active : ""}
           button
