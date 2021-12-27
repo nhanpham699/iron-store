@@ -3,7 +3,7 @@ import { AddCircle } from "@mui/icons-material"
 import IconButton from "@mui/material/IconButton"
 import { Box, styled } from "@mui/system"
 import * as React from "react"
-import AdditionalForm from "../AdditionalForm"
+import AdditionalForm from "../Form/additionalForm"
 
 const StyledModal = styled(ModalUnstyled)`
   position: fixed;

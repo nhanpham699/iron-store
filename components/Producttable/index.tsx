@@ -1,4 +1,5 @@
 import { Close, Delete, Done, Edit } from "@mui/icons-material"
+import SellIcon from "@mui/icons-material/Sell"
 import { Box, TextField, Tooltip } from "@mui/material"
 import { createStyles, makeStyles } from "@mui/styles"
 import dynamic from "next/dynamic"
@@ -13,16 +14,15 @@ import {
 } from "../../redux/actions/productActions"
 import { initEditedState } from "../../redux/reducers/productReducer"
 import AppState from "../../redux/types"
-import AdditionalModal from "../Modal"
+import AdditionalModal from "../Modal/additionalModal"
 import Progress from "../Progress"
 
 const MUIDataTable = dynamic(() => import("mui-datatables"), { ssr: false })
 
-const useStyles = makeStyles((theme: any) =>
+const useStyles = makeStyles(() =>
   createStyles({
     cursor: {
-      marginRight: theme.spacing(1.5),
-      marginTop: theme.spacing(0.7),
+      margin: "0 4px",
       cursor: "pointer",
     },
   })
@@ -60,8 +60,20 @@ const Producttable = () => {
               {isEdited?._id != data[tableMeta?.rowIndex]?._id ? (
                 <>
                   <Tooltip
-                    title="Edit"
+                    style={{ color: "#CC3300" }}
+                    title="Xóa"
                     aria-label="delete"
+                    className={classes.cursor}
+                  >
+                    <Delete
+                      onClick={() =>
+                        handleDelete(data[tableMeta?.rowIndex]?._id)
+                      }
+                    />
+                  </Tooltip>
+                  <Tooltip
+                    title="Sửa"
+                    aria-label="edit"
                     className={classes.cursor}
                   >
                     <Edit
@@ -79,24 +91,12 @@ const Producttable = () => {
                       }}
                     />
                   </Tooltip>
-                  <Tooltip
-                    style={{ color: "#CC3300" }}
-                    title="Delete"
-                    aria-label="delete"
-                    className={classes.cursor}
-                  >
-                    <Delete
-                      onClick={() =>
-                        handleDelete(data[tableMeta?.rowIndex]?._id)
-                      }
-                    />
-                  </Tooltip>
                 </>
               ) : (
                 <>
                   <Tooltip
-                    title="Confirm"
-                    aria-label="delete"
+                    title="Xác nhận"
+                    aria-label="confirm"
                     className={classes.cursor}
                   >
                     <Done
@@ -105,8 +105,8 @@ const Producttable = () => {
                     />
                   </Tooltip>
                   <Tooltip
-                    title="Cancel"
-                    aria-label="delete"
+                    title="Hủy"
+                    aria-label="close"
                     className={classes.cursor}
                   >
                     <Close
@@ -118,6 +118,13 @@ const Producttable = () => {
                   </Tooltip>
                 </>
               )}
+              <Tooltip
+                title="Bán"
+                aria-label="delete"
+                className={classes.cursor}
+              >
+                <SellIcon style={{ color: "#008000", fontSize: 23 }} />
+              </Tooltip>
             </Box>
           )
         },

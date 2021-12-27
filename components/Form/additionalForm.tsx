@@ -8,9 +8,9 @@ import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
 import React from "react"
 import { useDispatch, useSelector } from "react-redux"
-import Progress from "../../components/Progress"
 import { createDataRequest } from "../../redux/actions/productActions"
 import AppState from "../../redux/types"
+import Progress from "../Progress"
 
 export default function AdditionalForm({ handleClose }: any) {
   const dispatch = useDispatch()
