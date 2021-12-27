@@ -2,6 +2,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft"
 import ExitToAppIcon from "@mui/icons-material/ExitToApp"
 import MenuIcon from "@mui/icons-material/Menu"
 import NotificationsIcon from "@mui/icons-material/Notifications"
+import { Grid, Paper } from "@mui/material"
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar"
 import Badge from "@mui/material/Badge"
 import Box from "@mui/material/Box"
@@ -18,6 +19,8 @@ import { createStyles, makeStyles } from "@mui/styles"
 import axios from "axios"
 import { useRouter } from "next/router"
 import React from "react"
+import Orders from "../Table/orderTable"
+import Deposits from "./deposits"
 import MainListItems from "./listItems"
 
 const useStyles = makeStyles(() =>
@@ -180,38 +183,23 @@ function DashboardContent(props: IProps) {
         <Toolbar />
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
           <Box>{props.component}</Box>
-          {/* Chart */}
-          {/* <Grid item xs={12} md={8} lg={9}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                    height: 240,
-                  }}
-                >
-                  <Chart />
-                </Paper>
-              </Grid> */}
-          {/* Recent Deposits */}
-          {/* <Grid item xs={12} md={4} lg={3}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                    height: 240,
-                  }}
-                >
-                  <Deposits />
-                </Paper>
-              </Grid> */}
           {/* Recent Orders */}
-          {/* <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                  <Orders />
-                </Paper>
-              </Grid> */}
+          <Box mt={1}>
+            <Orders />
+          </Box>
+          {/* Recent Deposits */}
+          <Grid mt={1} item xs={12} md={4} lg={3}>
+            <Paper
+              sx={{
+                p: 2,
+                display: "flex",
+                flexDirection: "column",
+                height: 240,
+              }}
+            >
+              <Deposits />
+            </Paper>
+          </Grid>
         </Container>
       </Box>
     </Box>

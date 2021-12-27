@@ -291,6 +291,10 @@ const Producttable = () => {
     },
   ]
 
+  const options: any = {
+    selectableRows: false,
+  }
+
   return (
     <Box position="relative">
       <AdditionalModal />
@@ -298,7 +302,7 @@ const Producttable = () => {
         title={"Danh sách hàng trong kho"}
         data={data}
         columns={columns}
-        // options={options}
+        options={options}
       />
       {loading && <Progress position="absolute" />}
     </Box>

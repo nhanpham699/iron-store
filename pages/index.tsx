@@ -1,8 +1,7 @@
-import { Typography } from "@mui/material"
 import { withIronSessionSsr } from "iron-session/next"
-// import { InferGetServerSidePropsType } from "next"
 import React from "react"
-import Dashboard from "../components/dashboard/Dashboard"
+import Dashboard from "../components/Dashboard"
+import Producttable from "../components/Table/productTable"
 import { sessionOptions } from "../lib/iron-session"
 
 export const getServerSideProps = withIronSessionSsr(
@@ -23,7 +22,14 @@ export const getServerSideProps = withIronSessionSsr(
   sessionOptions
 )
 
-export default function Home() {
-  return <Dashboard component={<Typography>Home</Typography>} />
-  // return <p>Home</p>
+const Product = () => {
+  return <Dashboard component={<Producttable />} />
 }
+
+// const mapStateToProps = (state: ProductState) => state.products
+
+// const mapDispatchToProps = (dispatch: any) => ({
+//   loadDataRequest: () => dispatch(loadDataRequest()),
+// })
+
+export default Product

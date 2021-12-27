@@ -20,20 +20,9 @@ const MainListItems = () => {
   const router = useRouter()
   return (
     <div>
-      <Link href="/products">
+      <Link href="/">
         <ListItem
-          className={router.pathname === "/products" ? classes.active : ""}
-          button
-        >
-          <ListItemIcon>
-            <DashboardIcon />
-          </ListItemIcon>
-          <ListItemText primary="Quản lý kho hàng" />
-        </ListItem>
-      </Link>
-      <Link href="#">
-        <ListItem
-          className={router.pathname === "/orders" ? classes.active : ""}
+          className={router.pathname === "/" ? classes.active : ""}
           button
         >
           <ListItemIcon>
@@ -42,7 +31,6 @@ const MainListItems = () => {
           <ListItemText primary="Quản lý bán hàng" />
         </ListItem>
       </Link>
-
       <Link href="#">
         <ListItem
           className={router.pathname === "/statistics" ? classes.active : ""}
