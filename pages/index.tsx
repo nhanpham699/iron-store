@@ -1,6 +1,6 @@
 import { withIronSessionSsr } from "iron-session/next"
 import React from "react"
-import Dashboard from "../components/Dashboard"
+import Dashboard from "../components/dashboard"
 import Producttable from "../components/Table/productTable"
 import { sessionOptions } from "../lib/iron-session"
 
