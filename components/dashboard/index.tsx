@@ -20,7 +20,7 @@ import axios from "axios"
 import { useRouter } from "next/router"
 import React from "react"
 import Orders from "../Table/orderTable"
-import Deposits from "./deposits"
+import Deposits from "./Deposits"
 import MainListItems from "./listItems"
 
 const useStyles = makeStyles(() =>
