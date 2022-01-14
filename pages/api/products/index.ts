@@ -1,6 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import connectDB from "../../../utils/mongodb"
+
 const Product = require("../../../models/products")
+
+connectDB()
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { method } = req
@@ -15,4 +18,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       break
   }
 }
-export default connectDB(handler)
+export default handler

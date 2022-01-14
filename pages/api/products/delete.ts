@@ -2,6 +2,8 @@ import { NextApiRequest, NextApiResponse } from "next"
 import connectDB from "../../../utils/mongodb"
 const Product = require("../../../models/products")
 
+connectDB()
+
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const products = await Product.deleteOne(req.body)
@@ -12,4 +14,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(400).json({ success: false })
   }
 }
-export default connectDB(handler)
+export default handler

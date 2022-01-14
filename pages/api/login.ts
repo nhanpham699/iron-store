@@ -1,7 +1,10 @@
 import { NextApiResponse } from "next"
 import { withSessionRoute } from "../../lib/iron-session"
 import connectDB from "../../utils/mongodb"
+
 const User = require("../../models/users")
+
+connectDB()
 
 const handler = async (req: any, res: NextApiResponse) => {
   const { username, password } = req.body
@@ -15,4 +18,4 @@ const handler = async (req: any, res: NextApiResponse) => {
   res.send({ loggedIn: true })
 }
 
-export default connectDB(withSessionRoute(handler))
+export default withSessionRoute(handler)
